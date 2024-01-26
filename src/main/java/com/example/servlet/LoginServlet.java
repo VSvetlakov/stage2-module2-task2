@@ -19,28 +19,30 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        if (login == null || login.isEmpty()) {
-            resp.sendRedirect(req.getContextPath() + "/login.jsp");
-            return;
-        }
+        boolean errAuth = false;
 
-        if (password == null || password.isEmpty()) {
-            resp.sendRedirect(req.getContextPath() + "/login.jsp");
-            return;
+        if (login == null || login.isEmpty()) {
+            errAuth = true;
+        } else if  (password == null || password.isEmpty()) {
+            errAuth = true;
         }
 
         List<String> users = Users.getInstance().getUsers();
 
         if (!users.contains(login)) {
-            resp.sendRedirect(req.getContextPath() + "/login.jsp");
+            errAuth = true;
             return;
         }
 
-        HttpSession session = req.getSession();
-        session.setAttribute("user",login);
+        if (errAuth) {
+            req.getRequestDispatcher("/login.jsp").forward(req, resp);
+        }else {
 
-        resp.sendRedirect(req.getContextPath() + "/user/hello.jsp");
+            HttpSession session = req.getSession();
+            session.setAttribute("user", login);
 
+            resp.sendRedirect(req.getContextPath() + "/user/hello.jsp");
+        }
     }
 
     @Override
