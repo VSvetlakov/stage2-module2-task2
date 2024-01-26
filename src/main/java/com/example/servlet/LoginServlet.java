@@ -48,15 +48,11 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        HttpSession session = req.getSession(false);
-        if (session == null) {
-            resp.sendRedirect(req.getContextPath() + "/login.jsp");
-            return;
-        }
+        HttpSession session = req.getSession();
 
         String user = (String) session.getAttribute("user");
 
-        if (user == null || user.isEmpty()){
+        if (user == null){
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
         }else {
             resp.sendRedirect(req.getContextPath() + "/user/hello.jsp");
