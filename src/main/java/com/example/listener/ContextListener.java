@@ -11,6 +11,6 @@ public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext ctx = sce.getServletContext();
-        ctx.setAttribute("servletTimeInit", String.valueOf(LocalDateTime.now()));
+        ctx.setAttribute("servletTimeInit", LocalDateTime.now());
     }
 }
